@@ -5,6 +5,8 @@
  */
 package act4;
 
+import java.util.Iterator;
+import java.util.Objects;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 
@@ -122,6 +124,11 @@ public class GestionProductos extends javax.swing.JInternalFrame {
         botonSalir.setFont(new java.awt.Font("Courier New", 1, 14)); // NOI18N
         botonSalir.setForeground(java.awt.Color.black);
         botonSalir.setText("Salir");
+        botonSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonSalirActionPerformed(evt);
+            }
+        });
 
         botonNuevo.setFont(new java.awt.Font("Courier New", 1, 14)); // NOI18N
         botonNuevo.setForeground(java.awt.Color.black);
@@ -372,11 +379,36 @@ public class GestionProductos extends javax.swing.JInternalFrame {
 
     private void botonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarActionPerformed
         // TODO add your handling code here:
+        try{
+            
+        
         int codigo = Integer.parseInt(textCodigo.getText());
-        for (Productos prod : Menu.listaProductos) {
-
+        String nombre = textDescripcion.getText();
+        Iterator<Productos> it = Menu.listaProductos.iterator();
+        while(it.hasNext()){
+            Productos prod=it.next();
+            if(prod.getCodigo()==Integer.parseInt(textCodigo.getText()) || prod.getDescripcion().
+                    equalsIgnoreCase(textDescripcion.getText())){
+                it.remove();
+                int op= JOptionPane.showConfirmDialog(null, "Seguro que desea eliminar este producto?", "",
+                        JOptionPane.YES_NO_OPTION);
+                if(op==JOptionPane.NO_OPTION){
+                    this.dispose();
+                }else{
+                    JOptionPane.showMessageDialog(this, "Producto eliminado.");
+                    limpiarTodo();
+                }
+            }
+        }
+        }catch(NumberFormatException e){
+            
         }
     }//GEN-LAST:event_botonEliminarActionPerformed
+
+    private void botonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonSalirActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_botonSalirActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
