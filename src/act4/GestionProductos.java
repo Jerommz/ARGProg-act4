@@ -13,8 +13,8 @@ import javax.swing.JOptionPane;
  * @author jero
  */
 public class GestionProductos extends javax.swing.JInternalFrame {
-    
-    private DefaultComboBoxModel modelocb=new DefaultComboBoxModel();
+
+    private DefaultComboBoxModel modelocb = new DefaultComboBoxModel();
 
     /**
      * Creates new form GestionProductos
@@ -113,6 +113,11 @@ public class GestionProductos extends javax.swing.JInternalFrame {
         botonEliminar.setFont(new java.awt.Font("Courier New", 1, 14)); // NOI18N
         botonEliminar.setForeground(java.awt.Color.black);
         botonEliminar.setText("Eliminar");
+        botonEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonEliminarActionPerformed(evt);
+            }
+        });
 
         botonSalir.setFont(new java.awt.Font("Courier New", 1, 14)); // NOI18N
         botonSalir.setForeground(java.awt.Color.black);
@@ -210,53 +215,53 @@ public class GestionProductos extends javax.swing.JInternalFrame {
 
     private void botonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarActionPerformed
         // TODO add your handling code here:
-        try{
+        try {
             int codigo = Integer.parseInt(textCodigo.getText());
             int cant = Menu.listaProductos.size();
-            for(Productos prod:Menu.listaProductos){
-                if(prod.getCodigo()==codigo){
+            for (Productos prod : Menu.listaProductos) {
+                if (prod.getCodigo() == codigo) {
                     textDescripcion.setText(prod.getDescripcion());
                     textPrecio.setText(prod.getPrecio() + "");
                     textStock.setText(prod.getStock() + "");
-                    if(prod.getRubro().toString().equalsIgnoreCase("Comestibles")){
+                    if (prod.getRubro().toString().equalsIgnoreCase("Comestibles")) {
                         listaRubroGP.setSelectedIndex(1);
-                    }else if(prod.getRubro().toString().equalsIgnoreCase("Limpieza")){
+                    } else if (prod.getRubro().toString().equalsIgnoreCase("Limpieza")) {
                         listaRubroGP.setSelectedIndex(2);
-                    }else{
+                    } else {
                         listaRubroGP.setSelectedIndex(3);
                     }
                 }
             }
-            if(codigo>cant){
-                    textDescripcion.setText("");
-                    textPrecio.setText("");
-                    listaRubroGP.setSelectedIndex(0);
-                    textStock.setText("");
-                    JOptionPane.showMessageDialog(this, "No hay un producto con ese codigo.");
-                }
-        }catch(NumberFormatException e){
+            if (codigo > cant) {
+                textDescripcion.setText("");
+                textPrecio.setText("");
+                listaRubroGP.setSelectedIndex(0);
+                textStock.setText("");
+                JOptionPane.showMessageDialog(this, "No hay un producto con ese codigo.");
+            }
+        } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Debe ingresar un numero.");
         }
-        
-        
+
+
     }//GEN-LAST:event_botonBuscarActionPerformed
 
     private void botonNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonNuevoActionPerformed
         // TODO add your handling code here:
-        try{
+        try {
             int codigo = Integer.parseInt(textCodigo.getText());
             String nombre = textDescripcion.getText();
             double precio = Double.parseDouble(textPrecio.getText());
             boolean c = false;
-            for(Productos prod:Menu.listaProductos){
-                if(prod.getCodigo() == codigo || nombre.equalsIgnoreCase(prod.getDescripcion())){
+            for (Productos prod : Menu.listaProductos) {
+                if (prod.getCodigo() == codigo || nombre.equalsIgnoreCase(prod.getDescripcion())) {
                     int op = JOptionPane.showConfirmDialog(this,
                             "Producto repetido, desea actualizar el stock?",
                             "",
                             JOptionPane.YES_NO_OPTION);
-                    if(op == JOptionPane.NO_OPTION){
+                    if (op == JOptionPane.NO_OPTION) {
                         this.dispose();
-                    }else{
+                    } else {
                         int suma = prod.getStock() + Integer.parseInt(textStock.getText());
                         JOptionPane.showMessageDialog(this, "Stock actualizado.");
                         prod.setStock(suma);
@@ -265,21 +270,21 @@ public class GestionProductos extends javax.swing.JInternalFrame {
                 }
             }
             if (c == false) {
-            switch (listaRubroGP.getSelectedIndex()) {
-                case 1:
-                    Menu.listaProductos.add(new Productos(codigo, nombre, precio, Integer.parseInt(textStock.getText()), Categorias.COMESTIBLES));
-                    break;
-                case 2:
-                    Menu.listaProductos.add(new Productos(codigo, nombre, precio, Integer.parseInt(textStock.getText()), Categorias.LIMPIEZA));
-                    break;
-                case 3:
-                    Menu.listaProductos.add(new Productos(codigo, nombre, precio, Integer.parseInt(textStock.getText()), Categorias.PERFUMERIA));
-                    break;
+                switch (listaRubroGP.getSelectedIndex()) {
+                    case 1:
+                        Menu.listaProductos.add(new Productos(codigo, nombre, precio, Integer.parseInt(textStock.getText()), Categorias.COMESTIBLES));
+                        break;
+                    case 2:
+                        Menu.listaProductos.add(new Productos(codigo, nombre, precio, Integer.parseInt(textStock.getText()), Categorias.LIMPIEZA));
+                        break;
+                    case 3:
+                        Menu.listaProductos.add(new Productos(codigo, nombre, precio, Integer.parseInt(textStock.getText()), Categorias.PERFUMERIA));
+                        break;
+                }
+                JOptionPane.showMessageDialog(this, "Producto agregado correctamente.");
             }
-            JOptionPane.showMessageDialog(this, "Producto agregado correctamente.");
-        }
-        }catch(NumberFormatException e){
-            if(textCodigo.getText()==null || textDescripcion.getText()==null || textPrecio.getText()==null || textStock.getText()==null || listaRubroGP.getSelectedIndex()==0){
+        } catch (NumberFormatException e) {
+            if (textCodigo.getText() == null || textDescripcion.getText() == null || textPrecio.getText() == null || textStock.getText() == null || listaRubroGP.getSelectedIndex() == 0) {
                 JOptionPane.showMessageDialog(this, "Debe rellenar todos los espacios en blanco.");
             }
         }
@@ -287,52 +292,71 @@ public class GestionProductos extends javax.swing.JInternalFrame {
 
     private void botonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGuardarActionPerformed
         // TODO add your handling code here:
-        try{
-            int op = JOptionPane.showConfirmDialog(null, 
-                        "Seguro que desea guardar los cambios realizados?",
-                        "", 
-                        JOptionPane.YES_NO_OPTION);
-            if(op == JOptionPane.NO_OPTION){
+        try {
+            int op = JOptionPane.showConfirmDialog(null,
+                    "Seguro que desea guardar los cambios realizados?",
+                    "",
+                    JOptionPane.YES_NO_OPTION);
+            if (op == JOptionPane.NO_OPTION) {
                 this.dispose();
             } else {
+                int codigo = Integer.parseInt(textCodigo.getText());
+                String nombre = textDescripcion.getText();
+                double precio = Double.parseDouble(textPrecio.getText());
+                int stock = Integer.parseInt(textStock.getText());
+                boolean c = false;
                 for (Productos prod : Menu.listaProductos) {
-                    int codigo = Integer.parseInt(textCodigo.getText());
-                    String nombre = textDescripcion.getText();
-                    double precio = Double.parseDouble(textPrecio.getText());
-                    int stock = Integer.parseInt(textStock.getText());
-                    if(prod.getCodigo()==codigo){
+                    if (prod.getCodigo() == codigo) {
                         prod.setDescripcion(nombre);
                         prod.setPrecio(precio);
                         prod.setStock(stock);
-                    }else{
-                        int op2 = JOptionPane.showConfirmDialog(null, "No hay ningun producto con el codigo ingresado,"
-                                + " desea agregar el producto a la lista?","",
-                                JOptionPane.YES_NO_OPTION);
-                        if(op2 == JOptionPane.NO_OPTION){
-                            this.dispose();
-                        }else if(op2 == JOptionPane.YES_OPTION){
-                            switch (listaRubroGP.getSelectedIndex()) {
-                                case 1:
-                                    Menu.listaProductos.add(new Productos(codigo, nombre, precio, Integer.parseInt(textStock.getText()), Categorias.COMESTIBLES));
-                                    break;
-                                case 2:
-                                    Menu.listaProductos.add(new Productos(codigo, nombre, precio, Integer.parseInt(textStock.getText()), Categorias.LIMPIEZA));
-                                    break;
-                                case 3:
-                                    Menu.listaProductos.add(new Productos(codigo, nombre, precio, Integer.parseInt(textStock.getText()), Categorias.PERFUMERIA));
-                                    break;
-                            }
+                        switch (listaRubroGP.getSelectedIndex()) {
+                            case 1:
+                                prod.setRubro(Categorias.COMESTIBLES);
+                                break;
+                            case 2:
+                                prod.setRubro(Categorias.LIMPIEZA);
+                                break;
+                            case 3:
+                                prod.setRubro(Categorias.PERFUMERIA);
+                                break;
                         }
-                    }
+                    } else {
+                        c = true;
                     }
                 }
-            {
-
-        }  
-        }catch(NumberFormatException e){
+                if (c = true) {
+                    int op2 = JOptionPane.showConfirmDialog(this, "No hay ningun producto con el codigo ingresado,"
+                            + " desea agregar el producto a la lista?", "",
+                            JOptionPane.YES_NO_OPTION);
+                    if (op2 == JOptionPane.NO_OPTION) {
+                        this.dispose();
+                    } else {
+                        switch (listaRubroGP.getSelectedIndex()) {
+                            case 1:
+                                Menu.listaProductos.add(new Productos(codigo, nombre, precio, Integer.parseInt(textStock.getText()), Categorias.COMESTIBLES));
+                                break;
+                            case 2:
+                                Menu.listaProductos.add(new Productos(codigo, nombre, precio, Integer.parseInt(textStock.getText()), Categorias.LIMPIEZA));
+                                break;
+                            case 3:
+                                Menu.listaProductos.add(new Productos(codigo, nombre, precio, Integer.parseInt(textStock.getText()), Categorias.PERFUMERIA));
+                                break;
+                        }
+                    }
+                }
+            }
+        } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "No puede haber espacios en blanco si desea guardar un producto nuevo");
         }
     }//GEN-LAST:event_botonGuardarActionPerformed
+
+    private void botonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarActionPerformed
+        // TODO add your handling code here:
+        int codigo = Integer.parseInt(textCodigo.getText());
+        for(Productos prod:Menu.listaProductos){
+        }
+    }//GEN-LAST:event_botonEliminarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -354,23 +378,19 @@ public class GestionProductos extends javax.swing.JInternalFrame {
     private javax.swing.JTextField textStock;
     // End of variables declaration//GEN-END:variables
 
-    private void armarCategorias(){
+    private void armarCategorias() {
         modelocb.addElement("");
         modelocb.addElement("Comestibles");
         modelocb.addElement("Limpieza");
         modelocb.addElement("Perfumeria");
         listaRubroGP.setModel(modelocb);
     }
-    
-    private void limpiarTodo(){
+
+    private void limpiarTodo() {
         textCodigo.setText("");
         textDescripcion.setText("");
         textPrecio.setText("");
         listaRubroGP.setSelectedIndex(0);
         textStock.setText("");
-    }
-    
-    private void agregarProducto(int codigo, String nombre, double precio, int stock, Categorias rubro){
-        Menu.listaProductos.add(new Productos(codigo, nombre, precio, stock, rubro));
     }
 }
