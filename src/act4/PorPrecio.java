@@ -133,7 +133,7 @@ public class PorPrecio extends javax.swing.JInternalFrame {
             for(Productos prod:Menu.listaProductos){
             int menor = Integer.parseInt(textMenorPrecio.getText());
             int mayor = Integer.parseInt(textMayorPrecio.getText());
-            if(prod.getPrecio()>menor && prod.getPrecio()<mayor){
+            if(prod.getPrecio()>=menor && prod.getPrecio()<=mayor){
                 modelo.addRow(new Object[]{
                     prod.getCodigo(),
                     prod.getDescripcion(),
