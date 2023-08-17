@@ -14,7 +14,7 @@ repositorio en GitHub; los demás clonan, luego cada uno hace una de las clases 
 del proyecto y suben al repositorio los cambios.
 
 
-Menú general
+Menú general:
 
 ![image](https://github.com/jerommz/ARGProg-act4/assets/139485522/8460901e-5b46-49e5-84a8-666fdf68a166)
 
